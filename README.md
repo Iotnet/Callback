@@ -1,16 +1,17 @@
 # Callback
 ==========
 
--	    [Información general] (#información+general)
+-	    [Información General](#información+general)
 
--	    [Custom Callback] (#custom+callback)
+-	    [Custom Callback](#custom+callback)
 
-        -	    [Tipos de Callback] (#tipos+de+callback)
+        -	    [Tipos de Callback](#tipos+de+callback)
 
                  -	    [Data] (#data)
         
         
-## Información General
+Información General
+-------------------
 
 El backend puede reenviar automaticamente eventos utilizando el sistema de "Calback".
 Un 'Callback' es una petición http que contiene la información del dispositivo, además de otras variables que son enviadas a una plataforma y/o servidor.
@@ -22,7 +23,8 @@ Para estar seguro que tu aplicacion/servidor puede recibir callbacks, debes de a
 
 *La dirección IP puede cambiar. Cualquier cambio se hará saber inmediatamente.*
 
-## Custom Callback
+Custom Callback
+---------------
 
 Existen 3 tipos de callback y se cuenta con un set de variables disponibles por cada tipo de callback.
 Estas variables son reemplazadas por el valor correspondiente cuando el callback es llamado.
