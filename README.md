@@ -9,7 +9,10 @@
 	-	[Data](#data)
 	
 	-	[Service](#service)
-        
+	
+	-	[Error](#error)
+	
+-	[Callback Medium](#callback-medium)
         
 Información General
 -------------------
@@ -39,7 +42,7 @@ Cada tipo de callback comparte una variable en común.
 -	Time (int): Evento de marca de tiempo (En segundos - Unix Epoch)
 
 
-## Data
+## DATA
 
 En este tipo de callback el usuario puede configurar variable personalizadas que serán reemplazadas por el valor parseado. Entonces se podrán ocupar estas variables en el callback
 
@@ -77,7 +80,7 @@ El cliente puede decidir si mandar o no respuesta hacia el dispositivo. Para est
                 }
 
 
-## Service
+## SERVICE
 
 Este tipo de callback define la recepción de un mensaje operativo de un dispositivo. Variables disponibles son:
 
@@ -88,3 +91,54 @@ Este tipo de callback define la recepción de un mensaje operativo de un disposi
 -    lat (float): Latitud redondeada al entero más cercano, de la radio base más cercana que recibió el mensaje
 -    lng (float): Longitud, redondeada al entero más cercano, de la radio base más cercana que recibió el mensaje
 -    signal (float): La relación señal a ruido (En dB - Flotante con máximo dos dígitos de fracción)	
+
+Para este tipo se encuentran disponibles las siguientes opciones de configuración:
+
+#### Status
+
+-    batt (float): El voltaje de la batería (en Volts - Flotante con máximo dos dígitos de fracción)
+-    temp (float): Temperatura del dispositivo (en ºC - Flotante con máximo dos dígitos de fracción)
+-    seqNumber (int): Número de secuencia del mensaje si está disponible
+
+
+#### Acknowledge
+
+-    infoCode (int): Es el código de status del downlink:
+
+	-    0 (ACKED) recibi: La estación emitió la respuesta
+	-    1 (NO_ANSWER): El cliente no dió ninguna respuesta
+	-    2 (INVALID_PAYLOAD): La información enviada al dispositivo es inválida
+	-    3 (OVERRUN_ERROR): El dispositivo excedió su cuota de mensajes downlink 
+	-    4 (NETWORK_ERROR): No fué posible transmitir la respuesta
+	-    5 (PENDING): Hay un código que está pendiente enviar al dispositivo
+	-    6 (NO_DOWNLINK_CONTRACT): El dispositivo espera respuesta pero su BSS no acepta downlink
+	-    7 (TOO_MANY_REQUESTS): El dispositivo espera una respuesta antes de que el tiempo de respuesta expire
+	-    8 (INVALID_CONFIGURTION): El device type está configurado para obtener información del callback pero ningún
+	       callback BIDIR ha sido definido
+-    infoMessage (string): Mensaje asociado al código
+-    downlinkAck (bool): Verdadero si la estación permite la transmisión, falso si no.
+-    downlinkOverusage (bool): Verdadero si el dispositivo excede su cuota diaria, falso si no.
+
+#### Repeater
+
+-    batt (float): El voltaje de la batería (en Volts - Flotante con máximo dos dígitos de fracción)
+-    whitelistDevices (int): Numero de dispositivos en la lista de aceptados. Si es 0, todos los mensajes son repetidos
+-    repeatedMsg (int): Número de mensajes repetidos desde la última transmisión de datos
+-    unwantedDevices (int): Número de dispositivos únicos  que no están en la lista de permitidos desde la última transmisión
+	de datos. Si es 15 significa que el numero es mayor que 14
+-    unwantedMsg (int): El rango de la suma de mensajes recibidos desde la última transmisión de datos.
+-    wrongMsg (int): El rango del total de mensajes equivocados recibidos desde última transmisión.
+-    overRegulmsg (int): Rango de mensajes no repetidos debido a.
+
+## ERROR
+
+Este callback permite saber la pérdida de comunicación del dispositivo con el backend. Las variables personalizadas son:
+
+-    device (string): Identificador del dispositivo (device ID) en hexadecimal hasta 8 caracteres = 4 bytes
+-    info (string): Información del error, en caso de pérdida de comunicación, contiene la fecha del último mensaje recibido
+-    severity (string): <ERROR> cuando es un problema del dispositivo, <WARN> cuando la conexión está experimentando problemas 		que pudieran causar pérdidas de mensajes.
+
+
+Callback Medium
+---------------
+
