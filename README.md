@@ -1,5 +1,4 @@
 # Callback
-==========
 
 -       [Información General](#información-general)
 
@@ -39,6 +38,6 @@ Cuando se recibe un callback, el cliente debe regresar un código HTTP 2xx dentr
 Cada tipo de callback comparte un set de variables en común. 
         -       Time (int): the event timestamp (in seconds since the Unix Epoch)
 
-#### Data
+### Data
 
 
