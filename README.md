@@ -4,7 +4,9 @@ Instrucciones para realizar un callback a una plataforma de visualización de da
         -       [Información general](#informacion+general)
         
         -       [Custom Callback](#custom+callback)
+               
                 -       [Tipos de Callback](#tipos+de+callback)
+               
                 -       [Data](#data)
         
         
