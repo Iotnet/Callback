@@ -1,11 +1,10 @@
+-	[Información general](#información+general)
 
--      	[Información general](#información+general)
-        
--       [Custom Callback](#custom+callback)
+-	[Custom Callback](#custom+callback)
 
-        -       [Tipos de Callback](#tipos+de+callback)
-        
-                -       [Data](#data)
+        -	[Tipos de Callback](#tipos+de+callback)
+
+                 -	[Data](#data)
         
 ## Información General
 
