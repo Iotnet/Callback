@@ -1,13 +1,13 @@
 # Callback
 ==========
 
--	    [Información general](#información+general)
+-	    [Información general] (#información+general)
 
--	    [Custom Callback](#custom+callback)
+-	    [Custom Callback] (#custom+callback)
 
-        -	    [Tipos de Callback](#tipos+de+callback)
+        -	    [Tipos de Callback] (#tipos+de+callback)
 
-                 -	    [Data](#data)
+                 -	    [Data] (#data)
         
         
 ## Información General
