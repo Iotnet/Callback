@@ -18,8 +18,9 @@
 	
 	-	[HTTP](#http)
 	
-	
-        
+-	[Downlink messages](#downlink-messages)
+        
+		
 Información General
 -------------------
 
@@ -79,12 +80,12 @@ El cliente puede decidir si mandar o no respuesta hacia el dispositivo. Para est
 
 -    Responder al callback con el código HTTP NO_CONTENT (204)
 -    Responder con un mensaje json que contenga el campo *noData*:
-                { "0CB3":
-                        {
-                                "noData" : true
-                        }
-                }
-
+                
+			{ "0CB3":
+            		{	
+            			"noData" : true
+            		}
+			}
 
 ## Service
 
@@ -176,3 +177,81 @@ Dependiendo del callback, distintas variables están disponibles. La lista de va
 
 Se pueden definir headers personalizados en los callbacks. Por seguridad, deshabilitamos todos los headers estandarizados menos 'Authorization'. Este header te permite usar otro método de autenticación que solo Basic. No se permite poner el mismo header duplicado. Asi como se puede poner la información del usuario en la URL en la forma de http://login:password@yourdomain.com, se cauteloso al poner un header de autorización.
 
+##### GET Method
+Las variables son reemplazadas automáticamente en la cadena de consulta 
+
+	GET http://hostname/path?id={device}&time={time}&key1={data}&key2={signal}
+
+##### POST Method
+
+Los métodos POST o PUT permiten configurar el content-type y el cuerpo de la petición. Se puede elegir entre 3 tipos de content-type:
+
+-	**application/x-www-form-unlencoded**
+
+Éste es el content-type predefinido para los métodos POST y PUT. Cuando se usa este content-type puedes configurar el body en un formato enconded:
+
+    device={device}&data={data}&time={time}
+	
+Si el formato no se respeta sera denegado.
+
+**Notar que si se pone algúnas variables en la cadena de la URL, esos parametros serán adjuntados ya sea si esta vacía o no.*
+
+	Ejemplo:
+
+	POST http://hostname/path?id={device}&time={time}&key1={data}&key2={signal}
+
+con el body de la siguiente manera:
+device={device}&data={data}&time={time}
+
+resultará en el siguiente body:
+
+	id={device}&time={time}&key1={data}&key2={signal}&device={device}&data={data}&time={time}
+
+-	**application/json**
+
+De igual manera se puede configurar un objeto JSON en el body
+
+	{
+        "device" : "{device}",
+        "data" : "{data}",
+        "time" : {time}
+    }
+	
+Cuando se elige este content-type, el objeto JSON es validado. Si no se respeta el formato JSON, será rechazado
+*Si se requiere de mayor información acerca de la notación JSON, obtener ayuda en linea*
+
+-	**text/plain**
+
+Este content-type es libre. No se realiza ninguna validación (Excepto caracteres omitidos) 
+Ejemplo:
+
+	device => {device}
+    data => {data}
+    time => {time}
+	
+
+### Batch
+
+Los mensajes son reunidos por callback, cada linea representa un mensaje, luego son enviados en un batch usando una petición HTTP cada segundo. Esto evita una sobrecarga que el servidor no pueda soportar. Como el payload contiene varios mensajes, solo el método POST es soportado. Cuando se usan los **batch callbacks** con la opción de duplicado activa, no hay garantía de que los mensajes duplicados de un mensaje sean agrupados en un mismo batch. Todo depende del momento exacto de procesamiento de cada uno de esos duplicados 
+
+	POST http://hostname/path?batch={batch} where batch={device};{data};{signal};...
+	
+
+Downlink messages
+-----------------
+
+Cuando un mensaje necesita ser aceptado, el callback seleccionado por el downlink data necesita enviar información en la respuesta, este debe contener los 8 bytes de información que serán enviados al dispositivo preguntando por el reconocimiento.
+La información estará en formato JSON, y debe ser estructurado como sigue:
+
+	{
+    	"device_id" : { "downlinkData" : "deadbeefcafebabe"}
+	}
+	
+Con *device_id* reemplazado por el correspondiente device_id en formato hexadecimal y hasta 8 digitos. La información de downlink deberá ser de 8 bytes en formato hexadecimal.
+
+Con lo **batch callbacks**, multiples dispositivos necesitan un acknowledge. La respuesta deberá contener la información de todos estos dispositivos. La respuesta tiene la siguiente forma:
+
+	{
+    	"device1_id" : { "downlinkData" : "deadbeefcafebabe"},
+    	"device2_id" : { "downlinkData" : "bebebabab0b0b1b1"}
+	}
