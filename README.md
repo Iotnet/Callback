@@ -13,6 +13,12 @@
 	-	[Error](#error)
 	
 -	[Callback Medium](#callback-medium)
+
+	-	[EMAIL](#email)
+	
+	-	[HTTP](#http)
+	
+	
         
 Información General
 -------------------
@@ -42,7 +48,7 @@ Cada tipo de callback comparte una variable en común.
 -	Time (int): Evento de marca de tiempo (En segundos - Unix Epoch)
 
 
-## DATA
+## Data
 
 En este tipo de callback el usuario puede configurar variable personalizadas que serán reemplazadas por el valor parseado. Entonces se podrán ocupar estas variables en el callback
 
@@ -80,7 +86,7 @@ El cliente puede decidir si mandar o no respuesta hacia el dispositivo. Para est
                 }
 
 
-## SERVICE
+## Service
 
 Este tipo de callback define la recepción de un mensaje operativo de un dispositivo. Variables disponibles son:
 
@@ -130,7 +136,7 @@ Para este tipo se encuentran disponibles las siguientes opciones de configuraci�
 -    wrongMsg (int): El rango del total de mensajes equivocados recibidos desde última transmisión.
 -    overRegulmsg (int): Rango de mensajes no repetidos debido a.
 
-## ERROR
+## Error
 
 Este callback permite saber la pérdida de comunicación del dispositivo con el backend. Las variables personalizadas son:
 
@@ -141,4 +147,32 @@ Este callback permite saber la pérdida de comunicación del dispositivo con el 
 
 Callback Medium
 ---------------
+
+El medio define la manera en cómo se reenvía el evento
+
+## Email
+
+Aquí se necesita configurar un email válido, asunto y el cuerpo del mensaje.
+El asunto y el cuerpo del mensaje puede contener arbitrariamente texto con las variables debidamente definidas con llaves.
+
+
+## Http
+
+Aquí se necesita implementar un servicio RESTful o webFacing. Existen dos tipos de callback 
+
+#### Simple
+
+Cada mensaje es reenviado directamente en una petición HTTP simple. Se puede usar GET, POST, PUT, aunque POST es el mas recomendado
+
+##### Variables 
+
+Dependiendo del callback, distintas variables están disponibles. La lista de variables disponibles está desplegada arriba del campo de URL. Estas variables pueden ser usada en 3 lugares.
+
+-    URL: Como direcccion de variables o parametros de petición.
+-    Headers: Como valores del header. Las variables no pueden ser usadas en un key de header ya que el formato está 		estandarizado
+-    Body: Si se elige el método POST o PUT, se puede definir un template que contenga las variables. Estas variables son 	reemplazadas con el valor correspondiente
+
+##### Headers 
+
+Se pueden definir headers personalizados en los callbacks. Por seguridad, deshabilitamos todos los headers estandarizados menos 'Authorization'. Este header te permite usar otro método de autenticación que solo Basic. No se permite poner el mismo header duplicado. Asi como se puede poner la información del usuario en la URL en la forma de http://login:password@yourdomain.com, se cauteloso al poner un header de autorización.
 
