@@ -19,6 +19,8 @@
 	-	[HTTP](#http)
 	
 -	[Downlink messages](#downlink-messages)
+
+-	[Ejemplo](#ejemplo)
         
 		
 Información General
@@ -255,3 +257,53 @@ Con lo **batch callbacks**, multiples dispositivos necesitan un acknowledge. La 
     	"device1_id" : { "downlinkData" : "deadbeefcafebabe"},
     	"device2_id" : { "downlinkData" : "bebebabab0b0b1b1"}
 	}
+
+
+Ejemplo
+-------
+
+En este ejemplo se realizará un ejemplo de callback utilizando como plataforma de visualización de datos Ubidos y un botón de emergencia
+
+Primero nos dirigiremos a ![Ubidots](https://ubidots.com/) y nos registraremos. 
+
+La pagina nos redirigirá automaticamente al dashboard. Lo que necesitamos de nuestra cuenta son las API Credentials, en específico el token. Este lo encontramos en el lado superior izquierdo dando click en nuestro nombre de usuario y despues en 'API Credentials'.
+
+![Ubidots1](https://github.com/Iotnet/Callback/blob/master/images/ubidots1.png)
+
+Nos aparecerá una ventana en la parte superior. Copiaremos y pegaremos únicamente el **Token** en algún lado para ocuparlo mas adelante.
+
+![Ubidots2](https://github.com/Iotnet/Callback/blob/master/images/ubidots2.png)
+
+
+Como se describe en esta guía, los callbacks se realizan desde la pagina "Device Type" en el backend de Sigfox. Por lo tanto nos dirigimos ahí. Y buscamos por nuestro Device Type.
+
+![DeviceType](https://github.com/Iotnet/Callback/blob/master/images/devicetype.png)
+
+Dentro del nuestro device type encontraremos en el lado derecho un menu, buscaremos la opción "Callbacks" y daremos clicks.
+
+![DeviceType1](https://github.com/Iotnet/Callback/blob/master/images/devicetype1.png)
+
+Y del lado derecho daremos click en "New"
+
+Notaremos que hay distintos tipos de Callback como AWS IoT, AWS Kinesis, Microsoft Azure etc. Estos callbacks ya esta´n
+ predefinidos para usar en esas plataforma. En nuestro caso Ubidots no está en la lista por lo que tendremos que realizar un Custom Callback.
+ 
+ Este tipo de Callback permite enviar los datos que llegan al cloud de Sigfox a tu propio servidor/web application. 
+
+![Device Type2](https://github.com/Iotnet/Callback/blob/master/images/devicetype2.png)
+
+Configuraremos nuestro callback de la siguiente manera:
+
+![ubidots3](https://github.com/Iotnet/Callback/blob/master/images/ubidots3.png)
+
+
+Donde: 
+
+CHANNEL: URL
+
+URL PATTERN: http://things.ubidots.com/api/v1.6/devices/{device}/?token={Put_Your_Ubidots_TOKEN_here}
+
+Use HTTP Method : POST
+
+BODY: 	{"data" : "{data}"}
+
