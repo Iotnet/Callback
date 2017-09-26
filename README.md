@@ -69,6 +69,9 @@ Este tipo de callback define la entrada de un mensaje proveniente de un disposit
 -    lat (float): Latitud redondeada al entero más cercano, de la radio base más cercana que recibió el mensaje
 -    lng (float): Longitud, redondeada al entero más cercano, de la radio base más cercana que recibió el mensaje
 -    seqNumber (int): Número de secuencia del mensaje si esta disponible
+	
+	![data](https://github.com/Iotnet/Callback/blob/master/images/data.png)
+
         
 #### UPLINK
 
@@ -100,6 +103,9 @@ Este tipo de callback define la recepción de un mensaje operativo de un disposi
 -    lat (float): Latitud redondeada al entero más cercano, de la radio base más cercana que recibió el mensaje
 -    lng (float): Longitud, redondeada al entero más cercano, de la radio base más cercana que recibió el mensaje
 -    signal (float): La relación señal a ruido (En dB - Flotante con máximo dos dígitos de fracción)	
+
+	![service](https://github.com/Iotnet/Callback/blob/master/images/service.png)
+
 
 Para este tipo se encuentran disponibles las siguientes opciones de configuración:
 
@@ -146,6 +152,8 @@ Este callback permite saber la pérdida de comunicación del dispositivo con el 
 -    device (string): Identificador del dispositivo (device ID) en hexadecimal hasta 8 caracteres = 4 bytes
 -    info (string): Información del error, en caso de pérdida de comunicación, contiene la fecha del último mensaje recibido
 -    severity (string): <ERROR> cuando es un problema del dispositivo, <WARN> cuando la conexión está experimentando problemas 		que pudieran causar pérdidas de mensajes.
+
+	![error](https://github.com/Iotnet/Callback/blob/master/images/error.png)
 
 
 Callback Medium
